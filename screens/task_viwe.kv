@@ -1,0 +1,162 @@
+#:kivy 2.1.0
+<TaskViwe>:
+    GridLayout:
+        cols: 1
+        padding: 20, 20
+        spacing: 10, 10
+
+        # Título da tela
+        Label:
+            text: 'Tarefa'
+            font_size: 24
+            size_hint_y: None
+            height: self.texture_size[1] + dp(10)
+
+        Label:
+            id: title_viwe
+            size_hint_x: 0.8
+            size_hint_y: 0.5
+            font_size: 24
+            multiline: False
+            canvas.before:
+                Color:
+                    rgba: 0.3, 0.3, 0.5, 0.5
+                Rectangle:
+                    pos: self.pos
+                    size: self.size
+
+        # Data e cor
+        GridLayout:
+            cols: 2
+            spacing: 12, 0
+
+            Label:
+                text: 'Data de inserção:'
+                size_hint_x: None
+                width: self.texture_size[0] + dp(10)
+                size_hint_y: None
+                height: self.parent.parent.height * 0.07
+            
+            Label:
+                id: data_in_viwe
+                size_hint_x: 0.5
+                size_hint_y: None
+                height: self.parent.parent.height * 0.07
+                multiline: False
+                font_size: 18
+                canvas.before:
+                    Color:
+                        rgba: 0.1, 0.1, 0.2, 0.5  # cor da borda (cinza)
+                    Rectangle:
+                        pos: self.pos
+                        size: self.size
+
+            Label:
+                text: 'Data para conclusão:'
+                size_hint_x: None
+                width: self.texture_size[0] + dp(10)
+                size_hint_y: None
+                height: self.parent.parent.height * 0.07
+            
+            Label:
+                id: data_viwe
+                size_hint_x: 0.5
+                size_hint_y: None
+                height: self.parent.parent.height * 0.07
+                multiline: False
+                font_size: 18
+                canvas.before:
+                    Color:
+                        rgba: 0.1, 0.1, 0.2, 0.5  # cor da borda (cinza)
+                    Rectangle:
+                        pos: self.pos
+                        size: self.size
+               
+
+            Label:
+                text: 'Cor da tarefa:'
+                size_hint_x: None
+                width: self.texture_size[0] + dp(10)
+                size_hint_y: None
+                height: self.parent.parent.height * 0.07
+
+            Label:
+                id: color_viwe
+                size_hint_x: 0.4
+                size_hint_y: None
+                height: self.parent.parent.height * 0.07
+                multiline: False
+                font_size: 18
+                canvas.before:
+                    Color:
+                        rgba: 0.1, 0.1, 0.2, 0.5  # cor da borda (cinza)
+                    Rectangle:
+                        pos: self.pos
+                        size: self.size
+               
+        Spacer1:
+
+        # Descrição da tarefa
+        Label:
+            id: task_viwe
+            font_size: 16
+            size_hint_y: 3  
+            multiline: True
+            canvas.before:
+                Color:
+                    rgba: 0.7, 0.7, 0.9, 0.5  
+                Line:
+                    points: self.x, self.y, self.right, self.y, self.right, self.top, self.x, self.top, self.x, self.y
+                    width: 1
+           
+
+        # Botões
+        GridLayout:
+            cols: 3
+            spacing: 10, 0
+            size_hint_y: None
+            width: self.minimum_width
+            height: self.minimum_height
+
+            Button:
+                text: 'Voltar'
+                size_hint: None, None
+                size: dp(160), dp(35)
+                background_color: (0.9, 0.5, 0.2, 1)
+                on_release: root.on_viwe_back()
+
+            Button:
+                text: 'Remover Tarefa'
+                size_hint: None, None  
+                size: dp(160), dp(35)
+                background_color: (0.9, 0.3, 0.2, 1)
+                on_press:
+                    root.on_viwe_delete()
+                on_release:
+                    app.call_on_viwe_delete()
+
+            Button:
+                text: 'Concluir'
+                size_hint: None, None  
+                size: dp(160), dp(35)
+                background_color: (0.3, 0.9, 0.2, 1)
+                on_press:
+                    root.on_viwe_conclude()
+                on_release:
+                    app.call_on_viwe_conclude()
+        Spacer2:
+
+        Label:
+            text: 'Ao clicar em qualquer botão você voltará para página de tarefas. OBS: clicar em "Deletar" excluirá a tarefa permanentemente.'
+            multiline: True
+            size_hint_y: None
+            font_size: 12
+            height: dp(10)  
+                
+            
+<Spacer1@Widget>:
+    size_hint_y: None
+    height: dp(30)
+<Spacer2@Widget>:
+    size_hint_y: None
+    height: dp(2)

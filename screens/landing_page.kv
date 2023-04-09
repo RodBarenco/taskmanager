@@ -1,0 +1,138 @@
+#:kivy 2.1.0
+#:import RoundedButton assets.kv_classes.kv_commons.Clabel
+#: import NoEffectScroll assets.kv_classes.kv_commons.NoEffectScroll
+
+<LandingPage>:
+    BoxLayout:
+        orientation: 'vertical'
+        padding: 20
+        spacing: 10
+
+        GridLayout:
+            cols: 3
+            rows: 1
+            size_hint_y: None
+            width: self.minimum_width
+            height: self.minimum_height
+            spacing: 5
+            Button:
+                text: 'Tarefas'
+                size_hint_y: None
+                height: dp(10)
+                background_color: (0.3, 0.1, 0.3, 1)
+            Button:
+                text: 'Tarefas Concluídas'
+                size_hint_y: None
+                height: dp(10)
+                background_color: (0.1, 0.1, 0.3, 1)
+                on_release: root.on_concluded()
+            Button:
+                text: 'Lixo'
+                size_hint_y: None
+                height: dp(10)
+                background_color: (0.1, 0.1, 0.3, 1)
+                on_release: root.on_trash()
+
+        RColoredLabel:
+            text: 'Tarefas Urgentes'
+            size_hint_y: None
+            height: dp(30)
+            color: (1, 1, 1, 1)
+    
+        ScrollView:
+            effect_cls: NoEffectScroll
+            height: dp(200)
+            BoxLayout:
+                id: red
+                cols: 1
+                size_hint_y: None
+                height: self.minimum_height
+                orientation:'vertical'
+                spacing: 2
+
+        YColoredLabel:
+            text: 'Tarefas Necessárias'
+            size_hint_y: None
+            height: dp(30)
+            color: (1, 1, 1, 1)
+
+        ScrollView:
+            effect_cls: NoEffectScroll
+            height: dp(200)
+            BoxLayout:
+                id: yellow
+                cols: 1
+                size_hint_y: None
+                height: self.minimum_height
+                orientation:'vertical'
+                spacing: 2
+
+        GColoredLabel:
+            text: 'Outras Tarefas'
+            size_hint_y: None
+            height: dp(30)
+            color: (1, 1, 1, 1)
+
+        ScrollView:
+            effect_cls: NoEffectScroll
+            height: dp(200)
+            BoxLayout:
+                id: green
+                cols: 1
+                size_hint_y: None
+                height: self.minimum_height
+                orientation:'vertical'
+                spacing: 2
+        Spacer:
+                
+    Button:
+        text: 'Adicionar Tarefa'
+        size_hint_y: None
+        height: dp(40)
+        background_color: (0.9, 0.5, 0.2, 1)
+        color: (1, 1, 1, 1)
+        on_release: root.on_new_task()
+
+<Spacer@Widget>:
+    size_hint_y: None
+    height: dp(30)
+
+<Task>:
+    size_hint_y: None
+    height: dp(35)
+    canvas.before:
+        Color:
+            rgba: 0.1, 0.1, 0.2, 0.5  # cor da borda (cinza)
+        Rectangle:
+            pos: self.pos
+            size: self.size
+    Label:
+        id: taskmodel
+        font_size: 15
+    Button:
+        text:'Ver'
+        size_hint_x: None
+        background_color: (0.7, 0.7, 0.9, 1)
+        on_press:
+            root.on_viwe(self)
+        on_release:
+            app.call_on_viwe() 
+
+    Button:
+        text:'Concluir'
+        size_hint_x: None
+        background_color: (0.1, 0.1, 0.3, 1)
+        on_press:
+            root.on_conclude(self)
+        on_release:
+            app.call_on_conclude() 
+
+    Button:
+        text:'Jogar fora X'
+        size_hint_x: None
+        background_color: (0.1, 0.1, 0.3, 1)
+        on_press:
+            root.on_delete(self)
+        on_release:
+            app.call_on_delete() 
+    

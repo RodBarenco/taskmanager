@@ -1,0 +1,101 @@
+#:kivy 2.1.0
+<NewTask>:
+    GridLayout:
+        cols: 1
+        padding: 20, 20
+        spacing: 10, 10
+
+        # Título da tela
+        Label:
+            text: 'Criar nova tarefa'
+            font_size: 24
+            size_hint_y: None
+            height: self.texture_size[1] + dp(10)
+
+        TextInput:
+            id: task_title
+            hint_text: 'Digite aqui o nome da tarefa'
+            size_hint_x: 0.8
+            size_hint_y: 0.3
+            multiline: False
+
+        # Data e cor
+        GridLayout:
+            cols: 2
+            spacing: 12, 0
+
+            Label:
+                text: 'Data de conclusão:'
+                size_hint_x: None
+                width: self.texture_size[0] + dp(10)
+                size_hint_y: None
+                height: self.parent.parent.height * 0.07
+            
+            TextInput:
+                id: data_input
+                hint_text: 'Digite aqui a data para conclusão(dd/mm/aaaa)'
+                size_hint_x: 0.4
+                size_hint_y: None
+                height: self.parent.parent.height * 0.07
+                multiline: False
+
+            Label:
+                text: 'Cor da tarefa:'
+                size_hint_x: None
+                width: self.texture_size[0] + dp(10)
+                size_hint_y: None
+                height: self.parent.parent.height * 0.07
+
+            TextInput:
+                id: cor_input
+                hint_text: 'A cor da tarefa sem espaços ou letras maiusculas (vermelha, amarela ou verde)'
+                size_hint_x: 0.4
+                size_hint_y: None
+                height: self.parent.parent.height * 0.07
+                multiline: False
+
+        # Descrição da tarefa
+        TextInput:
+            id: descricao_input
+            hint_text: 'Digite aqui a descrição da tarefa'
+            font_size: 16
+            size_hint_y: 3  # Reduz a altura em relação aos demais TextInput
+            background_color: (1, 1, 1, 1)
+            foreground_color: (0, 0, 0, 1)
+            multiline: True
+
+        # Botões
+        GridLayout:
+            cols: 3
+            spacing: 10, 0
+            size_hint_y: None
+            width: self.minimum_width
+            height: self.minimum_height
+
+            Button:
+                id: button_1
+                text: 'Reset'
+                size_hint: None, None  
+                size: dp(50), dp(25)
+                background_color: (0.5, 0.3, 0.2, 1)
+                on_press: root.reset()
+
+            Button:
+                id: button_2
+                text: 'Cancelar'
+                size_hint: None, None
+                size: dp(75), dp(30)
+                background_color: (0.7, 0.4, 0.2, 1)
+                on_release: root.cancel()
+
+            Button:
+                id: button_3
+                text: 'Criar tarefa'
+                size_hint: None, None  
+                size: dp(85), dp(35)
+                background_color: (0.9, 0.5, 0.2, 1)
+                size_hint_x: 1
+                on_press: 
+                    app.call_add_task(cor_input.text, data_input.text, task_title.text, descricao_input.text)
+
+

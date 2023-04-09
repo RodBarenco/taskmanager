@@ -1,0 +1,82 @@
+#:kivy 2.1.0
+#:import RoundedButton assets.kv_classes.kv_commons.Sbutton
+  
+<Login>:
+    Image:
+        source: 'assets/theme3.png'
+        pos_hint: {'center_x': .5, 'center_y': .48}
+        allow_stretch: True
+        keep_ratio: False
+        size_hint_x: 1.01
+    
+    BoxLayout:
+        orientation: 'vertical'
+        padding: 20
+        spacing: 10
+
+        Label:
+            text: 'Task Manager'
+            font_size: '32sp'
+            color: 0.34, 0.48, 0.89, 1
+            size_hint_y: None
+            height: self.texture_size[1] + 20
+
+        BoxLayout:
+            orientation: 'vertical'
+            spacing: 25
+            TextInput:
+                id: username_input
+                hint_text: 'Nome de usuário'
+                multiline: False
+                size_hint: None, None
+                size: 285, 35
+                pos_hint: {'center_x': 0.5}
+
+            TextInput:
+                id: password_input
+                hint_text: 'Senha'
+                multiline: False
+                password: True
+                size_hint: None, None
+                size: 285, 35
+                pos_hint: {'center_x': 0.5}
+
+            RoundedButton:
+                text: 'Entrar'
+                on_press:
+                    app.call_login(username_input.text, password_input.text)
+
+        Label:
+            text: 'O seu verdadeiro organizador!'
+            font_size: '18sp'
+            color: 0.1, 0.1, 0.1, 1
+            size_hint_y: None
+            height: self.texture_size[1] + 20
+
+        BoxLayout:
+            orientation: 'vertical'
+            spacing: 20
+            TextInput:
+                id: new_username_input
+                hint_text: 'Novo nome de usuário'
+                multiline: False
+                size_hint: None, None
+                size: 285, 35
+                pos_hint: {'center_x': 0.5}
+
+            TextInput:
+                id: new_password_input
+                hint_text: 'Nova senha'
+                multiline: False
+                size_hint: None, None
+                size: 285, 35
+                password: True
+                pos_hint: {'center_x': 0.5}
+
+            RoundedButton2:
+                text: 'Registre-se' 
+                on_press:
+                    app.call_register(new_username_input.text, new_password_input.text)
+
+
+

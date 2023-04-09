@@ -1,0 +1,103 @@
+#:kivy 2.1.0
+#:import RoundedButton assets.kv_classes.kv_commons.Clabel
+#: import NoEffectScroll assets.kv_classes.kv_commons.NoEffectScroll
+
+<Trash>:
+    BoxLayout:
+        orientation: 'vertical'
+        padding: 20
+        spacing: 10
+
+        GridLayout:
+            cols: 3
+            rows: 1
+            size_hint_y: None
+            width: self.minimum_width
+            height: self.minimum_height
+            spacing: 5
+            Button:
+                text: 'Tarefas'
+                size_hint_y: None
+                height: dp(10)
+                background_color: (0.1, 0.1, 0.3, 1)
+                on_release: root.on_task()
+            Button:
+                text: 'Tarefas Concluídas'
+                size_hint_y: None
+                height: dp(10)
+                background_color: (0.1, 0.1, 0.3, 1)
+                on_release: root.on_concluded()
+            Button:
+                text: 'Lixo'
+                size_hint_y: None
+                height: dp(10)
+                background_color: (0.3, 0.1, 0.3, 1)
+
+        TColoredLabel:
+            text: 'Lixo'
+            size_hint_y: None
+            height: dp(30)
+            color: (1, 1, 1, 1)
+    
+        ScrollView:
+            effect_cls: NoEffectScroll
+            height: dp(600)
+            BoxLayout:
+                id: trashed_tasks
+                cols: 1
+                size_hint_y: None
+                height: self.minimum_height
+                orientation:'vertical'
+                spacing: 2
+        Label:
+            text: 'Tarefas com datas vencidas não podem ser restauradas!'
+            font_size: 14
+            size_hint_y: None
+            height: dp(40)
+            canvas.before:
+                Color:
+                    rgba: 0.7, 0.7, 0.9, 0.5  
+                Line:
+                    points: self.x, self.y, self.right, self.y, self.right, self.top, self.x, self.top, self.x, self.y
+                    width: 1
+
+<TrashedTask>:
+    size_hint_y: None
+    height: dp(35)
+    canvas.before:
+        Color:
+            rgba: 0.1, 0.1, 0.2, 0.5
+        Rectangle:
+            pos: self.pos
+            size: self.size
+    Spacerw:
+
+    Label:
+        id: taskmodelt
+        font_size: 15
+
+    Spacerw:
+
+    Button:
+        text:'Restaurar'
+        size_hint_x: None
+        width: dp(100)
+        background_color: (0.7, 0.7, 0.9, 1)
+        on_press:
+            root.on_restore(self)
+        on_release:
+            app.call_on_restore()
+
+    Button:
+        text:'Deletar'
+        size_hint_x: None
+        width: dp(100)
+        background_color: (0.9, 0.5, 0.5, 1)
+        on_press:
+            root.on_delete(self)
+        on_release:
+            app.on_delete_permanently() 
+
+<Spacerw@Widget>:
+    size_hint_y: None
+    size_hint_x: dp(100)
