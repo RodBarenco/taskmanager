@@ -3,19 +3,6 @@ from models.db_models import Task
 from handlers.session import SESSION
 from kivy.uix.label import Label
 from sqlalchemy.exc import SQLAlchemyError
-
-
-def add_task_widget(landingpagescreen, task):
-    title = task.title
-    date_to_conclude = task.date_to_conclude
-    textlabel = (f'Tarefa: {title} - previsão para: {date_to_conclude}')
-    if task.color == 'vermelha':
-        landingpagescreen.ids.red.add_widget(Label(text = textlabel))
-    elif task.color == 'amarela':
-        landingpagescreen.ids.yellow.add_widget(Label(text = textlabel))
-    elif task.color == 'verde':
-        landingpagescreen.ids.green.add_widget(Label(text = textlabel))
-
        
 def add_task(color, deadline, title, text, user_id):
     try:

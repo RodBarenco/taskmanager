@@ -17,27 +17,22 @@ Builder.load_file('screens/trash.kv')
 Builder.load_file('screens/concluded.kv')
 Builder.load_file('screens/task_viwe.kv')
 
-class Login(Screen):
-    pass
-
 # função para buscar a lista de tarefas refente ao usuário logado
 def add_list(session, logged_user):
     try:
         user = session.query(User).filter_by(id=logged_user).one()
-        lists = user.tasks
-        user_task_ids = [t.id for t in lists]
-        tasks = [task for task in user.tasks if task.id in user_task_ids]
-        
+        tasks = user.tasks
         if not tasks:
             print(f'Nenhuma tarefa encontrada.')
-        
         for t in tasks:
             print(f'task id: {t.id} - task color: {t.color} ')
         return tasks
-    
     except AttributeError as e:
         print(f"Erro de atributo: {e}")
-        print(traceback.print_exc ())
+
+# tela de login e registro
+class Login(Screen):
+    pass
 
 # página principal após a tela de login
 class LandingPage(Screen):
@@ -236,6 +231,10 @@ class NewTask(Screen):
         self.ids.descricao_input.text = ''
     pass
 
+# transição
+class Transition(Screen):
+    pass
+
 # O app em sí que instancia todas as classes, e conta com as diversas funções relativas as interações com botões
 class TestApp(App):
     session = SESSION
@@ -316,7 +315,7 @@ class TestApp(App):
         if task_id is not None:
             delete_permanently(task_id)
             tasks = add_list(self.session, self.logged_user)
-            self.null = Trash(name='null', tasks=[])
+            self.null = Transition(name='null')
             self.root.add_widget(self.null)
             self.root.current = 'null'
             self.root.remove_widget(self.trash)
@@ -334,7 +333,7 @@ class TestApp(App):
             self.root.remove_widget(self.trash)
             self.trash = Trash(name = 'trash', tasks=tasks)
             self.root.add_widget(self.trash)
-            self.null = LandingPage(name='null', tasks=[])
+            self.null = Transition(name='null')
             self.root.add_widget(self.null)
             self.root.current = 'null'
             self.root.remove_widget(self.landing_page)
@@ -352,7 +351,7 @@ class TestApp(App):
             self.root.remove_widget(self.landing_page)
             self.landing_page = LandingPage(name='landing', tasks=tasks)
             self.root.add_widget(self.landing_page)
-            self.null = Trash(name='null', tasks=[])
+            self.null = Transition(name='null')
             self.root.add_widget(self.null)
             self.root.current = 'null'
             self.root.remove_widget(self.trash)
@@ -370,7 +369,7 @@ class TestApp(App):
             self.root.remove_widget(self.concluded)
             self.concluded = Concluded(name = 'concluded', tasks=tasks)
             self.root.add_widget(self.concluded)
-            self.null = LandingPage(name='null', tasks=[])
+            self.null = Transition(name='null')
             self.root.add_widget(self.null)
             self.root.current = 'null'
             self.root.remove_widget(self.landing_page)
@@ -388,7 +387,7 @@ class TestApp(App):
             self.root.remove_widget(self.landing_page)
             self.landing_page = LandingPage(name='landing', tasks=tasks)
             self.root.add_widget(self.landing_page)
-            self.null = Concluded(name='null', tasks=[])
+            self.null = Transition(name='null')
             self.root.add_widget(self.null)
             self.root.current = 'null'
             self.root.remove_widget(self.concluded)
@@ -406,7 +405,7 @@ class TestApp(App):
             self.root.remove_widget(self.landing_page)
             self.landing_page = LandingPage(name='landing', tasks=tasks)
             self.root.add_widget(self.landing_page)
-            self.null = Concluded(name='null', tasks=[])
+            self.null = Transition(name='null')
             self.root.add_widget(self.null)
             self.root.current = 'null'
             self.root.remove_widget(self.concluded)
