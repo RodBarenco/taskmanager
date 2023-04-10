@@ -1,7 +1,5 @@
 from datetime import datetime
-from sqlalchemy.orm import Session
 from models.db_models import Task
-from kivy.uix.boxlayout import BoxLayout
 from handlers.session import SESSION
 from kivy.uix.label import Label
 from sqlalchemy.exc import SQLAlchemyError

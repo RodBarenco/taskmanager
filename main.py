@@ -51,23 +51,22 @@ class LandingPage(Screen):
                 super().__init__(**kwargs)
                 self.ids.taskmodel.text = text
                 self.name = name
-                print(f"Task name: {self.name}")
                 self.bind(on_press=self.on_viwe)
                 self.bind(on_press=self.on_delete)
                 self.bind(on_press=self.on_conclude)
             def on_viwe (self, *args):
                 self.selected_id = self.name
-                print(f'\n >>>> Nome da instância:{self.selected_id} \n')
+                print(f'\n >>>> Id da tarefa visualizada:{self.selected_id} \n')
                 self.parent.parent.parent.parent.selected_id = self.selected_id
 
             def on_delete (self, *args):
                 self.selected_id = self.name
-                print(f'\n >>>> Nome da instância:{self.selected_id} \n')
+                print(f'\n >>>> Id da tarefa deletada:{self.selected_id} \n')
                 self.parent.parent.parent.parent.selected_id = self.selected_id
             
             def on_conclude (self, *args):
                 self.selected_id = self.name
-                print(f'\n >>>> Nome da instância:{self.selected_id} \n')
+                print(f'\n >>>> Id da tarefa concluída:{self.selected_id} \n')
                 self.parent.parent.parent.parent.selected_id = self.selected_id
         
         self.tasklabel = Task()
@@ -76,7 +75,6 @@ class LandingPage(Screen):
 
         sorted_tasks = sorted(tasks, key=lambda task: task.date_to_conclude)
         for task in sorted_tasks:
-            print (f'\n >>>>>concluida: {task.concluded} - lixo: {task.trashed} - data: {task.date_to_conclude}<<<<<\n')
             if not task.concluded and not task.trashed and task.date_to_conclude.date() >= datetime.now().date():   
                 try:
                     print('tarefa recebida!')
@@ -128,6 +126,7 @@ class TaskViwe(Screen):
         
     def on_viwe_conclude(self):
         task_id = self.task.id
+        print(f'\n id da tarefa a ser concluída: >>>>>>>>>>>>>>>{task_id}\n\n')
         conclude_task(task_id)
 
 # tela relativa a tarefas jogadas no lixo
@@ -143,13 +142,14 @@ class Trash(Screen):
                 self.ids.taskmodelt.text = text
                 self.name = name
                 self.bind(on_press=self.on_delete)
+                self.bind(on_press=self.on_restore)
             def on_delete (self, *args):
                 self.selected_id = self.name
                 print(f'\n >>>> TAREFA DELETADA:{self.selected_id} \n')
                 self.parent.parent.parent.parent.selected_id = self.selected_id
             def on_restore (self, *args):
                 self.selected_id = self.name
-                print(f'\n >>>> TAREFA DELETADA:{self.selected_id} \n')
+                print(f'\n >>>> TAREFA RESTAURADA:{self.selected_id} \n')
                 self.parent.parent.parent.parent.selected_id = self.selected_id
         
         self.tasklabeltrashed = TrashedTask()
@@ -215,7 +215,7 @@ class Concluded(Screen):
                     textlabel = (f'Tarefa: {title} - previsão para: {date_to_conclude}')
                     print(f'Label a ser adicionado: {textlabel}')
                     self.ids.concluded_tasks.add_widget(ConcludedTask(text = textlabel, name = task_id), index = 0)
-                    print('Tarefa adicionada no lixo!')
+                    print('Tarefa adicionada em concluídas!')
                 except:
                     print(traceback.format_exc())
 
@@ -304,7 +304,6 @@ class TestApp(App):
 
     def call_on_viwe (self):
         task_id = self.landing_page.selected_id
-        print(f'\n\n>>>>>>>>>>>>>>>>>>>>>>olha aqui o id: {task_id}\n\n')
         if task_id is not None:
             task = self.session.query(Task).filter(Task.id == task_id).one()
             self.task_viwe = TaskViwe(name='viwe', task=task)
@@ -382,7 +381,7 @@ class TestApp(App):
     
     def call_on_concluded_restore(self):
         task_id = self.concluded.selected_id
-        print(f'essa função será restaurada >>>>>>>>>>>>>>>>> {task_id}')
+        print(f'essa tarefa será restaurada >>>>>>>>>>>>>>>>> {task_id}')
         if task_id is not None:
             recover_task(task_id)
             tasks = add_list(self.session, self.logged_user)
@@ -400,7 +399,7 @@ class TestApp(App):
     
     def on_concluded_delete_permanently(self):
         task_id = self.concluded.selected_id
-        print(f'essa função será restaurada >>>>>>>>>>>>>>>>> {task_id}')
+        print(f'essa tarefa será deletada permanentemente >>>>>>>>>>>>>>>>> {task_id}')
         if task_id is not None:
             delete_permanently(task_id)
             tasks = add_list(self.session, self.logged_user)

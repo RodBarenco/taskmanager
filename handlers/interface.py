@@ -1,10 +1,7 @@
 from kivy.uix.screenmanager import Screen
-from kivy.uix.label import Label
-from models.db_models import User
 from handlers.login import login, register
 from sqlalchemy.exc import IdentifierError as dbError
-from assets.kv_classes.kv_commons import Sbutton as RoundedButton
-from handlers.tasks import add_task_widget, add_task
+from handlers.tasks import add_task
 import traceback
 from datetime import datetime
 
