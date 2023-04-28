@@ -1,7 +1,7 @@
 name: CI
 on:
   push:
-    branches: [ testapk ]
+    branches: [ testapk2 ]
 
 jobs:
   build:
